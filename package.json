@@ -1,0 +1,13 @@
+{
+  "name": "app-website-generator",
+  "version": "0.0.0",
+  "description": "Simple static web generator",
+  "main": "index.js",
+  "repository": "git@github.com:gomezarmando/app-website-generator.git",
+  "author": "Luis Gomez - luigomez@gmail.com",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "rimraf": "^2.6.2"
+  }
+}
