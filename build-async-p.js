@@ -36,7 +36,7 @@ generateFiles = async (file) => {
 	await filesToMake.forEach(file => {
 		console.log('writing each file', file.name);
 		arrayOfFilesPromises.push(
-			writeFilePromise(`${file.name}.${file.type}`, file.content)
+			writeFilePromise(`./dist/${file.name}.${file.type}`, file.content)
 		)
 	})
 
