@@ -1,11 +1,13 @@
+const mkdirp = require('mkdirp');
 const fs = require('fs');
-const config = require('./options');
 const rimraf = require('rimraf')
 const util = require('util');
-const writeFolderPromise = util.promisify(fs.mkdir);
+const config = require('./options');
+const writeFoldersPromise = util.promisify(mkdirp);
 const writeFilePromise = util.promisify(fs.writeFile);
+const rimrafPromise = util.promisify(rimraf);
 
-const filesToMake = [
+const allFilesToMake = [
 	{
 		'content': '<html><p>they</p></html>',
 		'path': './dist/',
@@ -15,51 +17,97 @@ const filesToMake = [
 	{
 		'content': 'html { padding: 0 }',
 		'name': 'main',
-		'path': './dist/',
+		'path': './dist/css/',
 		'type': 'css'
+	},
+	{
+		'children': [
+			{
+				'name' : 'css',
+				'path' : './dist/css/',
+				'type' : 'directory'
+			},
+			{
+				'name' : 'img',
+				'path' : './dist/img/',
+				'type' : 'directory'
+			}
+		],
+		'name' : 'dist',
+		'path' : './dist',
+		'type' : 'directory'
 	}
 ];
 
-generateFolders = () => {
-	return writeFolderPromise('./dist/')
-	.then(() => {
-		console.log('Folder created - dist');
-	})
-	.catch(error => {
-		console.log('Problem creating folder', error);
-	})
+precheck = async () => {
+	await console.log('Preparing directories.')
+
+	return rimrafPromise('./dist/')
+		.then((response) => {
+			return  true;
+		})
+		.catch(error => {
+			console.log('Error deleting dist directory.');
+			return false;
+		})
 }
 
-generateFiles = async (file) => {
+generateFolders = async () => {
+	const arrayOfFolderPromises = [];
+	const foldersToMake = allFilesToMake.filter(file => file.type === 'directory');
+	
+	await foldersToMake.forEach(folder => {
+		arrayOfFolderPromises.push(
+			writeFoldersPromise(`${folder.path}`)
+		)
+		if(folder.children && folder.children.length > 0) {
+			folder.children.forEach(subFolder => {
+				arrayOfFolderPromises.push(
+					writeFoldersPromise(`${subFolder.path}`)
+				)
+			})	
+		}
+	})
+
+	return Promise.all(arrayOfFolderPromises)
+	.then(() => {
+		console.log('Folders created.');
+	})
+	.catch(error => {
+		console.log('Problem creating folder', error)
+	});
+}
+
+generateFiles = async () => {
 	const arrayOfFilesPromises = [];
+	const filesToMake = allFilesToMake.filter(file => file.type !== 'directory');
 
 	await filesToMake.forEach(file => {
-		console.log('writing each file', file.name);
+		console.log('writing file - ', `${file.name}.${file.type}`);
 		arrayOfFilesPromises.push(
-			writeFilePromise(`./dist/${file.name}.${file.type}`, file.content)
+			writeFilePromise(`${file.path}${file.name}.${file.type}`, file.content)
 		)
 	})
 
-	await console.log('arrayOfFilesPromises length', arrayOfFilesPromises.length)
-
 	return Promise.all(arrayOfFilesPromises)
 		.then(() => {
-			console.log('returning')
+			console.log('Files created.')
 		})
-		.catch(error => console.log('error from promise all:', error));
+		.catch(error => console.log('Problem creating folder', error));
 
 }
 
 generateDocuments = async () => {
 	const startTime = await new Date();
-	await console.log('starting');
-	await generateFolders().catch(error => {
-		console.log('error from catch', error);
-	});
-	await generateFiles();
-	await console.log('ending');
-	const endTime = await new Date();
-	await console.log('Duration:', (endTime - startTime));
+	await console.log('Starting');
+	const didDeleteDist = await precheck();
+	if (didDeleteDist) {
+		await generateFolders(didDeleteDist);
+		await generateFiles(didDeleteDist);
+		await console.log('Finished.');
+		const endTime = await new Date();
+		await console.log('Duration:', (endTime - startTime)+' ms');
+	} 
 }
 
 try {
