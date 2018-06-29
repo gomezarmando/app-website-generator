@@ -44,8 +44,7 @@ generateDocuments = async () => {
 		await generateFolders(allFilesToMake);
 		await generateFiles(allFilesToMake);
 		await console.log('Finished.');
-		const endTime = await new Date();
-		await console.log('Duration:', (endTime - startTime)+' ms');
+		await console.log('Duration:', (new Date() - startTime)+' ms');
 	} 
 }
 
