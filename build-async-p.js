@@ -44,6 +44,7 @@ precheck = async () => {
 
 	return rimrafPromise('./dist/')
 		.then((response) => {
+			console.log('Directories prepared.')
 			return  true;
 		})
 		.catch(error => {
@@ -94,7 +95,6 @@ generateFiles = async () => {
 			console.log('Files created.')
 		})
 		.catch(error => console.log('Problem creating folder', error));
-
 }
 
 generateDocuments = async () => {
