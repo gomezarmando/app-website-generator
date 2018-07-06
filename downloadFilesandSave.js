@@ -1,5 +1,6 @@
 const request = require('request');
 const fs = require('fs');
+
 /**
  * downloadFilesandSave method
  * @param {Array} files to download and save locally
@@ -13,7 +14,7 @@ module.exports = downloadFilesAndSave = files => {
 	const getFile = file => {
 		return new Promise((resolve, reject) => {
 			const readStream = request(file.url);
-			const writeStream = fs.createWriteStream(`${__dirname}/dist/img/${file.name}.${file.type}`);
+			const writeStream = fs.createWriteStream(`${__dirname}${file.directory}${file.name}.${file.type}`);
 
 			// Read Stream Events
 			readStream.on('data', chunk => {

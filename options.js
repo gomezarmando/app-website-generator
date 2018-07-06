@@ -12,8 +12,11 @@ module.exports = {
 		}
 	],
 	"images": [
-		{name: 'hero', url: 'https://s3.amazonaws.com/public-gomez-aws/img/hero.png', type: 'png'},
-		{name: 'roundedTransitPigeon', url: 'https://s3.amazonaws.com/public-gomez-aws/img/roundedTransitPigeon.png', type: 'png'}
+		{directory: '/dist/img/', name: 'hero', url: 'https://s3.amazonaws.com/public-gomez-aws/img/hero.png', type: 'png'},
+		{directory: '/dist/img/', name: 'roundedTransitPigeon', url: 'https://s3.amazonaws.com/public-gomez-aws/img/roundedTransitPigeon.png', type: 'png'}
 	],
-	'published-platforms': ['ios']
+	'published-platforms': ['ios'],
+	"css": [
+		{directory: '/dist/css/', name: 'bulma', url: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css', type: 'css'}
+	]
 }

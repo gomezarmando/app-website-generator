@@ -54,6 +54,11 @@ const downloadAssets = async () => {
 	const starTime = await new Date();
 	await console.log('Downloading Files.');
 	const successFulImages = await downloadFilesandSave(config.images);
+	const successfulCssFiles = await downloadFilesandSave(config.css);
+}
+
+const buildHTML = async () => {
+
 }
 
 const main = async () => {
