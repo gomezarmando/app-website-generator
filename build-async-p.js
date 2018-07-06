@@ -4,6 +4,8 @@ const generateFolders = require('./generateFolders');
 const generateFiles = require('./generateFiles');
 const precheck = require('./precheck')
 
+const downloadFilesandSave = require('./downloadFilesandSave');
+
 const allFilesToMake = [
 	{
 		'content': '<html><p>they</p></html>',
@@ -36,20 +38,30 @@ const allFilesToMake = [
 	}
 ];
 
-generateDocuments = async () => {
+const generateFilesandDirectories = async () => {
 	const startTime = await new Date();
-	await console.log('Starting');
+	await console.log('Generating Files and Documents.');
 	const didDeleteDist = await precheck();
 	if (didDeleteDist) {
 		await generateFolders(allFilesToMake);
 		await generateFiles(allFilesToMake);
 		await console.log('Finished.');
-		await console.log('Duration:', (new Date() - startTime)+' ms');
+		await console.log('Duration for generating', (new Date() - startTime)+' ms');
 	} 
 }
 
+const downloadAssets = async () => {
+	const starTime = await new Date();
+	await console.log('Downloading Files.');
+	const successFulImages = await downloadFilesandSave(config.images);
+}
+
+const main = async () => {
+	await generateFilesandDirectories();
+	await downloadAssets();
+}
 try {
-	generateDocuments()
+	main();
 } catch (error) {
 	console.log("Catching errors in try / catch", error)
 }
