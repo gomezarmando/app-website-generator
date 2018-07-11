@@ -1,14 +1,15 @@
+const chalk = require('chalk');
 const fs = require('fs');
 const ConvertJSONSections = require('./convertJSONSections');
 const util = require('util');
 const writeFilePromise = util.promisify(fs.writeFile);
 
-module.exports = generateHTML = async (sections, cssFiles) => {
-	const path = './dist/index.html';
-	const indexPage = new ConvertJSONSections(sections, cssFiles);
-	const indexPageHTML = await indexPage.convertToHTML();
+module.exports = generateHTML = async (page, sections, cssFiles) => {
+	const path = `./dist/${page}`;
+	const jsonPage = new ConvertJSONSections(sections, cssFiles);
+	const jsonPageHTML = await jsonPage.convertToHTML();
 
-	return writeFilePromise(path, indexPageHTML)
-		.then(response => console.log('Generating HTML'))
-		.catch(error => console.log('Error generating HTML', error));
+	return writeFilePromise(path, jsonPageHTML)
+		.then(response => console.log(chalk.black.bold(`Generated ${page}`)))
+		.catch(error => console.log(chalk.red('Error generating HTML'), error));
 };
