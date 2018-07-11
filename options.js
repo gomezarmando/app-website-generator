@@ -4,11 +4,11 @@ module.exports = {
 	},
 	"sections": [
 		{
-			"icon-image": "roundedTransitPigeon.png",
+			"iconImage": "roundedTransitPigeon.png",
 			"order": 1,
 			"subtitle": "Find the nearest stop around you",
 			"title": "Transit Pigeon",
-			"layout-type": "half",
+			"layoutType": "half",
 		}
 	],
 	"images": [
@@ -17,6 +17,7 @@ module.exports = {
 	],
 	'published-platforms': ['ios'],
 	"css": [
-		{directory: '/dist/css/', name: 'bulma', url: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css', type: 'css'}
+		{directory: '/dist/css/', name: 'bulma', url: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css', type: 'css'},
+		{directory: '/dist/css/', name: 'style', url: '', type: 'css'}
 	]
 }

@@ -12,33 +12,35 @@ module.exports = downloadFilesAndSave = files => {
 	const promises = [];
 	
 	const getFile = file => {
-		return new Promise((resolve, reject) => {
-			const readStream = request(file.url);
-			const writeStream = fs.createWriteStream(`${__dirname}${file.directory}${file.name}.${file.type}`);
-
-			// Read Stream Events
-			readStream.on('data', chunk => {
-				writeStream.write(chunk);
+		if(file.url){
+			return new Promise((resolve, reject) => {
+				const readStream = request(file.url);
+				const writeStream = fs.createWriteStream(`${__dirname}${file.directory}${file.name}.${file.type}`);
+	
+				// Read Stream Events
+				readStream.on('data', chunk => {
+					writeStream.write(chunk);
+				})
+				readStream.on('end', () => {
+					writeStream.end()
+				})
+	
+				// Write Stream Events
+				writeStream.on('finish', () => {
+					console.log('processing -', file.name);
+					resolve({name: file.name, processed: true})
+				})
+	
+				// Error Stream Events
+				readStream.on('error', error => {
+					reject(error);
+				})
+				writeStream.on('error', error => {
+					reject(error);
+				})
 			})
-			readStream.on('end', () => {
-				writeStream.end()
-			})
-
-			// Write Stream Events
-			writeStream.on('finish', () => {
-				console.log('processing -', file.name);
-				resolve({name: file.name, processed: true})
-			})
-
-			// Error Stream Events
-			readStream.on('error', error => {
-				reject(error);
-			})
-			writeStream.on('error', error => {
-				reject(error);
-			})
-		})
-		.catch(error => console.log("Error in getting file data:", error))
+			.catch(error => console.log("Error in getting file data:", error))
+		}
 	}
 
 	files.forEach(file => {

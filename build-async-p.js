@@ -6,6 +6,8 @@ const precheck = require('./precheck')
 
 const downloadFilesandSave = require('./downloadFilesandSave');
 
+const generateHTML = require('./generateHTML');
+
 const allFilesToMake = [
 	{
 		'content': '<html><p>they</p></html>',
@@ -14,8 +16,8 @@ const allFilesToMake = [
 		'type': 'html'
 	},
 	{
-		'content': 'html { padding: 0 }',
-		'name': 'main',
+		'content': `.hero {background: #fff url('../img/hero.png') no-repeat center center fixed;background-size: cover;color:#fff;height: 800px;padding: 200px 0 0 0;}.hero .hero-title {font-size: 5rem;font-weight: lighter;}.hero .hero-subtitle {font-size: 2rem;font-weight: normal;}.hero .intro-icon img{display: block;margin: 0 auto;width: 300px;}`,
+		'name': 'style',
 		'path': './dist/css/',
 		'type': 'css'
 	},
@@ -57,13 +59,14 @@ const downloadAssets = async () => {
 	const successfulCssFiles = await downloadFilesandSave(config.css);
 }
 
-const buildHTML = async () => {
-
+const generateHTMLFiles = async () => {
+	await generateHTML(config.sections, config.css)
 }
 
 const main = async () => {
 	await generateFilesandDirectories();
 	await downloadAssets();
+	await generateHTMLFiles();
 }
 try {
 	main();
