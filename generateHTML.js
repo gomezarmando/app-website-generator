@@ -4,9 +4,9 @@ const ConvertJSONSections = require('./convertJSONSections');
 const util = require('util');
 const writeFilePromise = util.promisify(fs.writeFile);
 
-module.exports = generateHTML = async (page, sections, cssFiles) => {
+module.exports = generateHTML = async (page, sections, cssFiles, siteDetails) => {
 	const path = `./dist/${page}`;
-	const jsonPage = new ConvertJSONSections(sections, cssFiles);
+	const jsonPage = new ConvertJSONSections(sections, cssFiles, siteDetails);
 	const jsonPageHTML = await jsonPage.convertToHTML();
 
 	return writeFilePromise(path, jsonPageHTML)

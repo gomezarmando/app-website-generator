@@ -1,5 +1,6 @@
 module.exports = {
 	"siteDetails": {
+		"htmlTitle": "Transit Pigeon iOS App",
 		"name": "Transit Pigeon"
 	},
 	"sections": [

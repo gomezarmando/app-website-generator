@@ -1,8 +1,9 @@
 module.exports = class ConvertJSONSections {
-	constructor (sections, cssFiles) {
+	constructor (sections, cssFiles, siteDetails) {
 		this.htmlString = '';
 		this.sections = sections;
 		this.cssFiles = cssFiles;
+		this.htmlTitle = (siteDetails && siteDetails.htmlTitle) ? siteDetails.htmlTitle : '';
 	}
 
 	getHTML () {
@@ -65,6 +66,7 @@ module.exports = class ConvertJSONSections {
 			<html>
 				<head>
 					${headerContent !== '' ? headerContent : ''}
+					<title>${this.htmlTitle ? this.htmlTitle : ''}</title>
 				</head>
 				<body>
 					${bodyContent !== '' ? bodyContent : ''}

@@ -20,7 +20,7 @@ const downloadAssets = async () => {
 }
 
 const generateHTMLFiles = async () => {
-	await generateHTML('index.html',config.sections, config.css)
+	await generateHTML('index.html',config.sections, config.css, config.siteDetails)
 }
 
 const main = async () => {
