@@ -26,6 +26,7 @@ module.exports = class ConvertJSONSections {
 				const hasTitle = section.title !== '' ? true : false;
 				const hasSubTitle = section.subtitle !== '' ? true : false;
 				const hasAppIcon = section.iconImage !== '' ? true : false;
+				const noPlacement = !section.iconImagePlacement;
 				const imageIsLeft = section.iconImage && section.iconImagePlacement === 'left';
 				const imageIsRight = section.iconImage && section.iconImagePlacement === 'right';
 
@@ -48,7 +49,7 @@ module.exports = class ConvertJSONSections {
 									}
 								</div>
 								${
-									imageIsRight === true ? 
+									(imageIsRight === true || noPlacement) ? 
 									`<div class="column intro-icon">
 										${hasAppIcon ? `<img src="./img/${section.iconImage}" width="300" height="300" />` : ''}
 									</div>` : ''
