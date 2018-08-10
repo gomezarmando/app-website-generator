@@ -1,7 +1,8 @@
 module.exports = {
 	"siteDetails": {
 		"htmlTitle": "Transit Pigeon iOS App",
-		"name": "Transit Pigeon"
+		"name": "Transit Pigeon",
+		"copyright": "transitpigeon.com All Rights Reserved"
 	},
 	"sections": [
 		{

@@ -1,9 +1,11 @@
+
 module.exports = class ConvertJSONSections {
 	constructor (sections, cssFiles, siteDetails) {
 		this.htmlString = '';
 		this.sections = sections;
 		this.cssFiles = cssFiles;
 		this.htmlTitle = (siteDetails && siteDetails.htmlTitle) ? siteDetails.htmlTitle : '';
+		this.footerText = (siteDetails && siteDetails.copyright ? siteDetails.copyright : '');
 	}
 
 	getHTML () {
@@ -71,6 +73,9 @@ module.exports = class ConvertJSONSections {
 				<body>
 					${bodyContent !== '' ? bodyContent : ''}
 				</body>
+				<footer>
+					<span>&copy ${this.footerText}</span>
+				</footer>
 			</html>
 		`;
 
