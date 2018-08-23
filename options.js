@@ -4,6 +4,9 @@ module.exports = {
 		"name": "Transit Pigeon",
 		"copyright": "transitpigeon.com All Rights Reserved"
 	},
+	"AWS": {
+		"bucket": 'testbucket-xyz-one-three-five-seven',
+	},
 	"sections": [
 		{
 			"iconImage": "roundedTransitPigeon.png",

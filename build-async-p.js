@@ -5,6 +5,7 @@ const generateFolders = require('./generateFolders');
 const generateFiles = require('./generateFiles');
 const generateHTML = require('./generateHTML');
 const precheck = require('./precheck')
+const uploadFilestoAWSCloud = require('./uploadFiles')
 
 const chalk = require('chalk');
 
@@ -27,6 +28,7 @@ const main = async () => {
 	await generateFilesandDirectories();
 	await downloadAssets();
 	await generateHTMLFiles();
+	await uploadFilestoAWSCloud(config.AWS);
 }
 try {
 	main();

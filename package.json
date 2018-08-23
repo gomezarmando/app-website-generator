@@ -8,8 +8,10 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "aws-sdk": "^2.291.0",
     "chalk": "^2.4.1",
     "mkdirp": "^0.5.1",
+    "path": "^0.12.7",
     "request": "^2.87.0",
     "rimraf": "^2.6.2"
   }
