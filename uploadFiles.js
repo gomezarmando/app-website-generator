@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const {checkForBucket, createBucket, deleteBucket, deleteBucketItems, getBucketItems, uploadFile} = require('./aws-promise-api');
+const {checkForBucket, createBucket, deleteBucket, deleteBucketItems, getBucketItems, uploadFile} = require('./aws-bucket-promise-api');
 const path = require('path');
 const fs = require('fs');
 
