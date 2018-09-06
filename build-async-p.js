@@ -6,6 +6,7 @@ const generateFiles = require('./generateFiles');
 const generateHTML = require('./generateHTML');
 const precheck = require('./precheck')
 const uploadFilestoAWSCloud = require('./uploadFiles')
+const getAWSDetails = require('./getAWSDetails')
 
 const chalk = require('chalk');
 
@@ -24,11 +25,16 @@ const generateHTMLFiles = async () => {
 	await generateHTML('index.html',config.sections, config.css, config.siteDetails)
 }
 
+const finishPublishing = async () => {
+	await getAWSDetails(config.AWS);
+}
+
 const main = async () => {
 	await generateFilesandDirectories();
 	await downloadAssets();
 	await generateHTMLFiles();
 	await uploadFilestoAWSCloud(config.AWS);
+	await finishPublishing();
 }
 try {
 	main();
