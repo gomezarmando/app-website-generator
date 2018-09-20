@@ -10,21 +10,19 @@ module.exports = generateFolders = async (allFilesToMake) => {
 	await foldersToMake.forEach(folder => {
 		arrayOfFolderPromises.push(
 			writeFoldersPromise(`${folder.path}`)
-				.then(response => console.log(chalk.green(`Writing folder: ${folder.name}`)))
 		)
 		if(folder.children && folder.children.length > 0) {
 			folder.children.forEach(subFolder => {
 				arrayOfFolderPromises.push(
 					writeFoldersPromise(`${subFolder.path}`)
-						.then(response => console.log(chalk.green(`Writing folder: ${subFolder.name}`)))
 				)
 			})	
 		}
 	})
 
 	return Promise.all(arrayOfFolderPromises)
-	.then(() => {
-		console.log(chalk.black.bold('Folders created.'));
+	.then(response => {
+		console.log(chalk.black.bold('Folders created.'), response);
 	})
 	.catch(error => {
 		console.log(chalk.red('Problem creating folder'), error)

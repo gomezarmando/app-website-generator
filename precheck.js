@@ -3,10 +3,10 @@ const util = require('util');
 const rimraf = require('rimraf')
 const rimrafPromise = util.promisify(rimraf);
 
-module.exports = precheck = async () => {
+module.exports = precheck = () => {
 	return rimrafPromise('./dist/')
 		.then((response) => {
-			console.log(chalk.black.bold('Erasing previous version.'))
+			console.log(chalk.black.bold('Erasing previous version.', response))
 			return true;
 		})
 		.catch(error => {

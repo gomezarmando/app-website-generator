@@ -12,46 +12,43 @@ const fs = require('fs');
 module.exports = downloadFilesAndSave = (files, fileType) => {
 	const promises = [];
 	const getFile = file => {
+		return new Promise((resolve, reject) => {
+			const readStream = request(file.url);
+			const writeStream = fs.createWriteStream(`${__dirname}${file.directory}${file.name}.${file.type}`);
 
-	return new Promise((resolve, reject) => {
-		const readStream = request(file.url);
-		const writeStream = fs.createWriteStream(`${__dirname}${file.directory}${file.name}.${file.type}`);
+			// Read Stream Events
+			readStream.on('data', chunk => {
+				writeStream.write(chunk);
+			})
+			readStream.on('end', () => {
+				writeStream.end()
+			})
 
-		// Read Stream Events
-		readStream.on('data', chunk => {
-			writeStream.write(chunk);
-		})
-		readStream.on('end', () => {
-			writeStream.end()
-		})
+			// Write Stream Events
+			writeStream.on('finish', () => {
+				resolve({name: file.name, processed: true})
+			})
 
-		// Write Stream Events
-		writeStream.on('finish', () => {
-			// console.log('processing -', file.name);
-			resolve({name: file.name, processed: true})
+			// Error Stream Events
+			readStream.on('error', error => {
+				reject(error);
+			})
+			writeStream.on('error', error => {
+				reject(error);
+			})
 		})
-
-		// Error Stream Events
-		readStream.on('error', error => {
-			reject(error);
-		})
-		writeStream.on('error', error => {
-			reject(error);
-		})
-	})
-	.catch(error => console.log(chalk.red('Error in getting file data:'), error))
+		.catch(error => {throw new Error(`Error Downloading - ${file.name}.${file.type}`)});
 	}
 
 	files.forEach(file => {
 		if(file.url){
 			promises.push(
 				getFile(file)
-					.then(Response => console.log(chalk.green(`Downloading: ${file.name}.${file.type}`)))
 			)
 		}
 	})
 
 	return Promise.all(promises)
-		.then(results => console.log(chalk.black.bold(`Downloaded: ${results.length} ${fileType} file${results && results.length > 1 ? 's': ''}`)))
-		.catch(error => console.log(chalk.red('error downloading and saving:'), error));
+		.then(results => console.log(chalk.black.bold(`Downloaded: ${results.length} ${fileType} file${results && results.length > 1 ? 's': ''}`), results))
+		.catch(error => {console.log(chalk.red('Error downloading and saving:'), error.message)}); //
 }

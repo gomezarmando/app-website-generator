@@ -10,13 +10,12 @@ module.exports = generateFiles = async (allFilesToMake) => {
 	await filesToMake.forEach(file => {
 		arrayOfFilesPromises.push(
 			writeFilePromise(`${file.path}${file.name}.${file.type}`, file.content)
-				.then(response => console.log(chalk.green(`Writing file: ${file.name}.${file.type}`)))
 		)
 	})
 
 	return Promise.all(arrayOfFilesPromises)
-		.then(() => {
-			console.log(chalk.black.bold('Files created.'))
+		.then(response => {
+			console.log(chalk.black.bold('Files created.'), response);
 		})
 		.catch(error => console.log('Problem creating folder', error));
 }
